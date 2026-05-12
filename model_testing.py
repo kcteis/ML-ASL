@@ -2,7 +2,12 @@ import os
 import pandas as pd
 import numpy as np
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import (
+    train_test_split,
+    cross_val_score,
+    StratifiedKFold
+)
+
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 from sklearn.svm import SVC
@@ -30,7 +35,7 @@ os.makedirs("plots/model_comparisons", exist_ok=True)
 os.makedirs("reports", exist_ok=True)
 
 # ==========================================
-# 2. LOAD CSV FILE
+# 2. LOAD DATASET
 # ==========================================
 CSV_PATH = "asl_landmark_features.csv"
 
@@ -41,7 +46,7 @@ print(df.head())
 print("\nDataset Shape:", df.shape)
 
 # ==========================================
-# 3. SEPARATE FEATURES AND LABELS
+# 3. FEATURES AND LABELS
 # ==========================================
 X = df.drop("label", axis=1)
 y = df["label"]
@@ -56,7 +61,7 @@ print("\nClasses:")
 print(label_encoder.classes_)
 
 # ==========================================
-# 5. TRAIN-TEST SPLIT (80:20 PER LABEL)
+# 5. TRAIN-TEST SPLIT
 # ==========================================
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -77,6 +82,9 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
+# Scale full dataset for cross-validation
+X_scaled = scaler.fit_transform(X)
+
 # ==========================================
 # 7. DEFINE MODELS
 # ==========================================
@@ -91,15 +99,24 @@ models = {
 }
 
 # ==========================================
-# 8. TRAIN AND EVALUATE MODELS
+# 8. K-FOLD CROSS VALIDATION SETUP
+# ==========================================
+kfold = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+# ==========================================
+# 9. TRAIN AND EVALUATE
 # ==========================================
 results = []
 
 for model_name, model in models.items():
 
-    print("\n" + "="*50)
+    print("\n" + "="*60)
     print(f"TRAINING: {model_name}")
-    print("="*50)
+    print("="*60)
 
     # ==========================================
     # TRAIN MODEL
@@ -112,7 +129,7 @@ for model_name, model in models.items():
     y_pred = model.predict(X_test)
 
     # ==========================================
-    # METRICS
+    # TEST METRICS
     # ==========================================
     accuracy = accuracy_score(y_test, y_pred)
 
@@ -135,23 +152,54 @@ for model_name, model in models.items():
     )
 
     # ==========================================
+    # TRAINING ACCURACY
+    # ==========================================
+    train_accuracy = model.score(X_train, y_train)
+
+    # ==========================================
+    # CROSS VALIDATION
+    # ==========================================
+    cv_scores = cross_val_score(
+        model,
+        X_scaled,
+        y_encoded,
+        cv=kfold,
+        scoring='accuracy',
+        n_jobs=-1
+    )
+
+    cv_mean = cv_scores.mean()
+    cv_std = cv_scores.std()
+
+    # ==========================================
     # STORE RESULTS
     # ==========================================
     results.append({
         "Model": model_name,
-        "Accuracy": accuracy,
+        "Train Accuracy": train_accuracy,
+        "Test Accuracy": accuracy,
         "Precision": precision,
         "Recall": recall,
-        "F1-Score": f1
+        "F1-Score": f1,
+        "CV Mean Accuracy": cv_mean,
+        "CV Std": cv_std
     })
 
     # ==========================================
     # PRINT RESULTS
     # ==========================================
-    print(f"\nAccuracy : {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall   : {recall:.4f}")
-    print(f"F1-Score : {f1:.4f}")
+    print(f"\nTrain Accuracy : {train_accuracy:.4f}")
+    print(f"Test Accuracy  : {accuracy:.4f}")
+
+    print(f"\nPrecision      : {precision:.4f}")
+    print(f"Recall         : {recall:.4f}")
+    print(f"F1-Score       : {f1:.4f}")
+
+    print("\nCross Validation Scores:")
+    print(cv_scores)
+
+    print(f"\nMean CV Accuracy: {cv_mean:.4f}")
+    print(f"CV Std Dev      : {cv_std:.4f}")
 
     # ==========================================
     # CLASSIFICATION REPORT
@@ -165,7 +213,7 @@ for model_name, model in models.items():
     print("\nClassification Report:")
     print(report)
 
-    # Save report to text file
+    # Save report
     report_path = f"reports/{model_name}_classification_report.txt"
 
     with open(report_path, "w") as f:
@@ -205,28 +253,33 @@ for model_name, model in models.items():
     plt.close()
 
 # ==========================================
-# 9. RESULTS COMPARISON TABLE
+# 10. RESULTS TABLE
 # ==========================================
 results_df = pd.DataFrame(results)
 
-print("\n" + "="*50)
+print("\n" + "="*60)
 print("FINAL MODEL COMPARISON")
-print("="*50)
+print("="*60)
 
 print(results_df)
 
-# ==========================================
-# 10. SAVE RESULTS CSV
-# ==========================================
+# Save results
 results_df.to_csv(
-    "reports/model_results.csv",
+    "reports/model_results_with_cv.csv",
     index=False
 )
 
 # ==========================================
-# 11. VISUALIZE METRICS
+# 11. METRIC COMPARISON PLOTS
 # ==========================================
-metrics = ["Accuracy", "Precision", "Recall", "F1-Score"]
+metrics = [
+    "Train Accuracy",
+    "Test Accuracy",
+    "Precision",
+    "Recall",
+    "F1-Score",
+    "CV Mean Accuracy"
+]
 
 for metric in metrics:
 
@@ -239,6 +292,7 @@ for metric in metrics:
     )
 
     plt.title(f"Model Comparison - {metric}")
+
     plt.ylim(0, 1)
 
     plt.tight_layout()
@@ -257,20 +311,28 @@ for metric in metrics:
 # ==========================================
 results_df.set_index("Model")[metrics].plot(
     kind='bar',
-    figsize=(10, 6)
+    figsize=(12, 6)
 )
 
 plt.title("Overall Model Performance Comparison")
 plt.ylabel("Score")
+
 plt.ylim(0, 1)
+
 plt.xticks(rotation=0)
 
 plt.tight_layout()
 
-# Save overall comparison graph
-overall_plot_path = "plots/model_comparisons/overall_model_comparison.png"
+# Save overall graph
+overall_plot_path = (
+    "plots/model_comparisons/overall_model_comparison.png"
+)
 
-plt.savefig(overall_plot_path, dpi=300, bbox_inches='tight')
+plt.savefig(
+    overall_plot_path,
+    dpi=300,
+    bbox_inches='tight'
+)
 
 plt.show()
 
@@ -281,13 +343,7 @@ print("ALL RESULTS SAVED SUCCESSFULLY")
 print("===================================")
 
 print("\nSaved Files:")
-
-print("\nReports:")
-print("- reports/model_results.csv")
+print("- reports/model_results_with_cv.csv")
 print("- reports/*_classification_report.txt")
-
-print("\nConfusion Matrices:")
 print("- plots/confusion_matrices/")
-
-print("\nComparison Graphs:")
 print("- plots/model_comparisons/")
