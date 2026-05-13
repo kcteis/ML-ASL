@@ -1,0 +1,203 @@
+\section{Methodology}
+% ─────────────────────────────────────────────────────────────────────────────
+
+TThis study follows a two-stage machine learning pipeline consisting of (1) data processing and feature extraction, and (2) model training and evaluation. Raw ASL alphabet images are first transformed into structured numerical representations using hand landmark detection. These features are then used to train and evaluate multiple classification models to determine the best-performing algorithm for ASL recognition.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Dataset}
+The dataset used in this study consists of 26 classes corresponding to the ASL alphabet letters A to Z. Each class contains labeled images of static hand gestures captured in RGB format. The dataset is organized into separate directories per class, where each directory represents one ASL letter.
+
+Each image is treated as an independent sample and is processed individually through the feature extraction pipeline. The dataset is traversed systematically by iterating through all class folders and reading each image file for preprocessing and landmark extraction.
+
+\subsection{Image Preprocessing}
+Before feature extraction, each image undergoes a standardized preprocessing pipeline to ensure consistency and improve detection reliability.
+
+\subsubsection{Spatial Normalization}
+All images are resized to a fixed resolution of $512 \times 512$ pixels using bilinear interpolation. This ensures uniform input dimensions regardless of the original image size and aspect ratio.
+
+\subsubsection{Noise Reduction}
+A Gaussian blur filter with a $3 \times 3$ kernel ($\sigma = 0$) is applied to reduce high-frequency noise while preserving essential structural features of the hand.
+
+\subsubsection{Contrast Enhancement}
+Image contrast and brightness are adjusted using a linear transformation:
+
+\[
+I' = \alpha I + \beta
+\]
+
+where $\alpha = 1.2$ (contrast factor) and $\beta = 15$ (brightness offset). This enhances the visibility of hand regions against varying backgrounds.
+
+\subsubsection{Color Space Conversion}
+Since OpenCV loads images in BGR format, each image is converted to RGB using \texttt{cv2.cvtColor} to ensure compatibility with MediaPipe Hands.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Hand Landmark Detection}
+
+Hand landmark detection is performed using MediaPipe Hands, a real-time hand tracking framework developed by Google. The system operates in static image mode and is configured to detect a single hand per image.
+
+MediaPipe Hands uses a two-stage deep learning pipeline:
+
+\begin{itemize}
+\item A palm detection model that identifies the region of interest.
+\item A landmark model that predicts 21 hand keypoints.
+\end{itemize}
+
+Each successful detection returns 21 landmarks corresponding to anatomical points of the hand, including the wrist, finger joints, and fingertips. Each landmark contains $(x, y, z)$ coordinates normalized relative to the image.
+
+Images where no hand is detected are excluded from the final dataset.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Feature Vector Construction}
+
+Each of the 21 detected hand landmarks is associated with a three-dimensional coordinate tuple $(x, y, z)$, where $x$ and $y$ are normalized to the image width and height respectively (range $[0, 1]$), and $z$ represents the estimated depth relative to the wrist landmark. Concatenating the coordinates across all 21 landmarks yields a 63-dimensional feature vector:
+
+\begin{equation}
+  \mathbf{f} = \bigl[x_0,\, y_0,\, z_0,\; x_1,\, y_1,\, z_1,\; \ldots,\; x_{20},\, y_{20},\, z_{20}\bigr] \in \mathbb{R}^{63}
+\end{equation}
+
+This representation encodes the spatial configuration of the entire hand skeleton in a compact, pose-based descriptor that is invariant to non-informative low-level visual variations such as skin tone, lighting conditions, and background texture, properties that raw pixel-based features do not inherently provide.
+
+\begin{table}[htbp]
+\centering
+\caption{Mapping of Hand Landmark Indices to Anatomical Regions}
+\label{tab:landmarks}
+\renewcommand{\arraystretch}{1.25}
+
+\begin{tabularx}{\linewidth}{C{3cm} C{4cm} L{6cm}}
+\hline
+\textbf{Landmark Index} & \textbf{Feature Components} & \textbf{Description} \\
+\hline
+
+0 & $(x_0,y_0,z_0)$ & Wrist \\
+
+1--4 & $(x_1,y_1,z_1)$ to $(x_4,y_4,z_4)$ & Thumb (CMC to Tip) \\
+
+5--8 & $(x_5,y_5,z_5)$ to $(x_8,y_8,z_8)$ & Index Finger (MCP to Tip) \\
+
+9--12 & $(x_9,y_9,z_9)$ to $(x_{12},y_{12},z_{12})$ & Middle Finger (MCP to Tip) \\
+
+13--16 & $(x_{13},y_{13},z_{13})$ to $(x_{16},y_{16},z_{16})$ & Ring Finger (MCP to Tip) \\
+
+17--20 & $(x_{17},y_{17},z_{17})$ to $(x_{20},y_{20},z_{20})$ & Pinky Finger (MCP to Tip) \\
+
+\hline
+\end{tabularx}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsubsection{Dataset Construction}
+
+All extracted feature vectors are aggregated into a structured dataset stored in CSV format. The dataset consists of 63 numerical feature columns and one label column representing the corresponding ASL class.
+
+The final dataset is represented as:
+
+\[
+\mathbf{X} \in \mathbb{R}^{N \times 63}, \quad \mathbf{y} \in \mathbb{R}^{N}
+\]
+
+where $N$ is the total number of successfully processed images.
+
+Each feature column corresponds to a specific landmark coordinate (e.g., $x_0, y_0, z_0, \dots, x_{20}, y_{20}, z_{20}$).
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Data Preparation for Modeling}
+
+\subsubsection{Label Encoding}
+
+Since the target labels are categorical (A–Z), they are converted into numerical form using label encoding. Each ASL letter is mapped to a unique integer value to allow compatibility with machine learning algorithms.
+
+\subsubsection{Train-Test Split}
+
+The dataset is divided into training (80\%) and testing (20\%) sets using stratified sampling. Stratification ensures that all 26 classes are proportionally represented in both subsets, preserving the original class distribution.
+
+\subsubsection{Feature Scaling}
+
+Feature standardization is applied using z-score normalization:
+
+\[
+x' = \frac{x - \mu}{\sigma}
+\]
+
+where $\mu$ is the mean and $\sigma$ is the standard deviation computed from the training set only. This prevents data leakage and ensures consistent scaling across models.
+
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Machine Learning Models}
+
+Four classical machine learning models are evaluated under identical conditions:
+
+\subsubsection{Support Vector Machine (SVM)}
+
+A Support Vector Machine with Radial Basis Function (RBF) kernel is used to handle non-linear decision boundaries. The RBF kernel is defined as:
+
+\[
+K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
+\]
+
+where $\gamma$ controls the influence of individual training samples.
+
+\subsubsection{k-Nearest Neighbors (k-NN)}
+
+The k-NN classifier uses $k = 5$ neighbors and Euclidean distance to classify samples based on majority voting among nearest points in feature space.
+
+\subsubsection{Gaussian Naïve Bayes}
+
+Gaussian Naïve Bayes assumes feature independence and models each feature using a Gaussian distribution. Classification is performed using Bayes’ theorem:
+
+\[
+P(y \mid \mathbf{x}) \propto P(y) \prod_{j=1}^{63} P(x_j \mid y)
+\]
+
+\subsubsection{Random Forest}
+
+Random Forest is an ensemble learning method consisting of 100 decision trees. Each tree is trained on a bootstrap sample, and at each split, a subset of features is randomly selected. Final predictions are obtained through majority voting.
+
+\begin{table}[htbp]
+\centering
+\caption{Machine Learning Model Configurations}
+\label{tab:models}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabularx}{\linewidth}{L{3cm} L{3cm} L{6.3cm}}
+\hline
+\textbf{Model} & \textbf{Type} & \textbf{Key Hyperparameters} \\
+\hline
+
+SVM & Kernel-based & RBF kernel, $C = 1.0$, $\gamma = \text{scale}$ \\
+
+k-NN & Instance-based & $k = 5$, Euclidean distance \\
+
+Gaussian Naïve Bayes & Probabilistic & Gaussian likelihood, uniform priors \\
+
+Random Forest & Ensemble & 100 trees, max features $\sqrt{p}$, random state 42 \\
+
+\hline
+\end{tabularx}
+\end{table}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Model Evaluation}
+
+\subsubsection{Holdout Evaluation}
+
+Models are evaluated using an 80/20 train-test split. Performance metrics are computed on the unseen test set to assess generalization capability.
+
+\subsubsection{Cross-Validation}
+
+A 5-fold stratified cross-validation approach is used to evaluate model stability. The dataset is divided into 5 folds, and each fold is used once as validation data while the remaining folds are used for training.
+
+The final score is reported as the mean accuracy across all folds.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Evaluation Metrics}
+
+Model performance is measured using the following metrics:
+
+\begin{itemize}
+\item \textbf{Accuracy:} Overall correctness of predictions
+\item \textbf{Precision:} Correct positive predictions over total predicted positives
+\item \textbf{Recall:} Correct positives over actual positives
+\item \textbf{F1-score:} Harmonic mean of precision and recall
+\end{itemize}
+
+All metrics are computed using weighted averaging to account for class distribution imbalance.

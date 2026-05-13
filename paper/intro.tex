@@ -1,0 +1,123 @@
+\documentclass[12pt,runningheads]{llncs}
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{xcolor}
+% \usepackage{times}
+% \usepackage{setspace}
+% \usepackage{titlesec}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage[table]{xcolor}
+% \usepackage{hyperref}
+% \usepackage{microtype}
+% \usepackage{enumitem}
+% \usepackage{fancyhdr}
+% \usepackage{indentfirst}
+% \usepackage{parskip}
+% \usepackage[numbers]{natbib}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\title{An Experimental Analysis of Machine Learning Project for American Sign Language}
+
+\titlerunning{ML Models for ASL Recognition}
+
+\author{
+Kate D. Capadocia \and
+Gabriel Dominic A. Dicar \and
+Earl Sheldon F. Pabua \and
+Ara Abigail E. Ambita
+}
+\authorrunning{Capadocia et al.}
+
+\institute{
+Department of Physical Sciences and Mathematics\\
+University of the Philippines Visayas, Miagao, Iloilo, Philippines
+}
+
+\maketitle
+
+\begin{abstract}
+This study investigates the performance of classical machine learning algorithms for American Sign Language (ASL) alphabet recognition using image-based data. Support Vector Machine (SVM), k-Nearest Neighbors (k-NN), Naïve Bayes, and Random Forest classifiers are evaluated under identical experimental conditions to determine their effectiveness in recognizing static ASL hand gestures. The study aims to identify lightweight and computationally efficient alternatives to deep learning approaches for resource-constrained environments.
+
+\keywords{American Sign Language \and Machine Learning \and Gesture Recognition \and Computer Vision}
+\end{abstract}
+
+\section{Introduction}
+
+Communication is a fundamental human need that enables individuals to convey information, express emotions, and participate meaningfully in social and professional life. According to the World Health Organization \cite{who2021}, approximately 1.57 billion people worldwide live with some degree of hearing loss, a figure projected to rise to 2.5 billion by 2050. For this population, verbal communication is frequently inaccessible, making alternative modalities essential. American Sign Language (ASL) serves as the primary language of the Deaf and hard-of-hearing communities in the United States and Canada. As a complete, natural language with its own grammar, syntax, and expressive conventions, ASL conveys meaning through the coordinated movement of the fingers, hands, arms, and body, supplemented by facial expressions \cite{bakershenk1980}.
+
+Despite its linguistic richness and the size of the community that depends on it, ASL is not widely known among hearing individuals. This asymmetry creates a persistent communication barrier that contributes to the social, educational, and occupational marginalization of the Deaf community. Interpreter services, while valuable, are costly and not always available in real-time or informal settings. Automated sign language recognition (SLR) systems present a promising technological solution: by translating hand gestures into readable text, such systems can act as always-available communication bridges that reduce dependence on human interpreters and promote greater social inclusivity.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Review of Related Literature}
+
+Research in automated sign language recognition has followed two broad hardware paradigms: sensor-based and vision-based approaches. Sensor-based systems employ wearable devices such as data gloves equipped with flex sensors, accelerometers, and Inertial Measurement Units (IMUs), to directly measure hand joint angles and spatial orientation. While these devices can yield high recognition accuracy, their reliance on specialized hardware constrains natural interaction and limits practical accessibility for everyday use \cite{oz2011}.
+
+Vision-based approaches offer a non-intrusive alternative by extracting hand features from standard RGB camera images. Within this paradigm, classical machine learning algorithms have been widely studied for static sign recognition. Support Vector Machines (SVMs) have proven particularly effective due to their ability to find optimal decision boundaries in high-dimensional feature spaces. \cite{barczak2011} demonstrated that an SVM operating on normalized hand-shape descriptors could reliably classify static ASL letters, while \cite{isaacs2004} similarly applied SVMs to fingerspelling recognition with favorable results. The flexibility of SVMs in handling non-linearly separable data through kernel functions particularly the Radial Basis Function (RBF) kernel that makes them well-suited to the complex geometric variation inherent in hand gesture data.
+
+Random Forest classifiers, as ensemble methods that aggregate predictions from multiple decision trees trained on random feature subsets, have also attracted considerable interest for gesture recognition tasks due to their robustness to noise and resistance to overfitting. \cite{pugeault2011} employed a Random Forest on depth-image features for finger-spelling recognition, achieving strong multi-class performance. The model's ability to rank feature importances provides an additional analytical benefit, enabling researchers to identify which landmark positions contribute most to discriminating between visually similar signs.
+
+The k-Nearest Neighbors (k-NN) algorithm, though simple in formulation, has served as a consistent baseline in sign language recognition studies. Its non-parametric nature requires no explicit model training, and it performs well when the feature space is compact and class clusters are well-separated. \cite{hasan2012} demonstrated competitive k-NN performance on hand gesture feature vectors, noting that the choice of distance metric and the number of neighbors $k$ are the primary factors governing classification quality. The introduction of standardized feature scaling further amplifies k-NN effectiveness by ensuring that no single dimension dominates the distance computation.
+
+Gaussian Na\"{i}ve Bayes (GNB) represents a probabilistic baseline frequently included in comparative gesture recognition studies. By modeling each feature as an independent Gaussian distribution per class, GNB is computationally efficient and requires minimal data to estimate parameters. While its conditional independence assumption is known to be violated in structured hand pose data where landmark coordinates exhibit strong spatial correlations, the classifier nonetheless provides useful performance context against which more expressive models can be measured \cite{rish2001}.
+
+A key advancement enabling more effective classical ML classification of hand gestures was the release of MediaPipe Hands by Google \cite{zhang2020}. This real-time hand landmark detection framework estimates 21 three-dimensional keypoints from a single RGB frame, producing a structured skeletal representation of the hand. By reducing raw images to a 63-dimensional coordinate vector $\mathbf{f} \in \mathbb{R}^{63}$, MediaPipe Hands abstracts away appearance-level variation, including skin tone, background clutter, and illumination differences, while preserving the geometric configuration that distinguishes one sign from another. Recent studies have confirmed that classical ML classifiers operating on such landmark-based features can achieve high accuracy on static gesture datasets, with the additional advantage of being computationally lightweight and deployable without GPU hardware \cite{adeyanju2021,bantupalli2018}.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Problem Statement}
+
+While individual classical ML classifiers have been applied to sign language recognition in prior work \cite{barczak2011,pugeault2011,hasan2012}, a systematic and reproducible comparison of multiple algorithms (SVM, k-NN, Gaussian Na\"{i}ve Bayes, and Random Forest) under a unified experimental framework on MediaPipe hand landmark features has not been thoroughly established for the full 26-class ASL static alphabet. Existing studies vary in their datasets, preprocessing pipelines, feature representations, and evaluation protocols, making direct performance comparisons unreliable. Without a controlled benchmark, practitioners have limited guidance on which classifier offers the best trade-off between recognition accuracy, generalization stability, and computational efficiency for a hardware-free, vision-based ASL alphabet recognition system.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Objectives of the Study}
+
+This study addresses the identified gap through the following specific objectives:
+
+\begin{enumerate}
+  \item To construct a structured feature dataset by extracting 63-dimensional hand landmark coordinate vectors from the ASL Alphabet image set using the MediaPipe Hands framework \cite{zhang2020}.
+
+  \item To train and evaluate four classical machine learning classifiers such as Support Vector Machine (SVM), k-Nearest Neighbors (k-NN), Gaussian Na\"{i}ve Bayes, and Random Forest on the extracted landmark features for the recognition of all 26 letters of the ASL static alphabet.
+
+  \item To assess each classifier using a consistent evaluation protocol comprising a stratified 80/20 holdout split and 5-fold stratified cross-validation, reporting accuracy, weighted precision, recall, F1-score, and cross-validation mean accuracy.
+
+  \item To identify the classifier that achieves the optimal balance between recognition accuracy and generalization stability for deployment in a lightweight, hardware-free ASL alphabet recognition system.
+\end{enumerate}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\subsection{Hypotheses}
+
+Based on the reviewed literature and the chosen methodology, this study proposes the following hypotheses:
+
+\textbf{H\textsubscript{1}} The 63-dimensional hand landmark features extracted using MediaPipe Hands \cite{zhang2020} are sufficient for accurate recognition of the 26 ASL alphabet classes.
+
+\textbf{H\textsubscript{2}} The SVM with RBF kernel is expected to achieve the highest classification accuracy among the evaluated models \cite{barczak2011,isaacs2004}.
+
+\textbf{H\textsubscript{3}} Random Forest is expected to produce the most stable performance across cross-validation folds due to its ensemble-based structure \cite{pugeault2011}.
+
+\textbf{H\textsubscript{4}} Gaussian Na\"{i}ve Bayes is expected to achieve the lowest overall accuracy because of its independence assumption on correlated hand landmark features \cite{rish2001}.
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Scope and Limitations}
+
+This study is limited to the recognition of the 26 static hand configurations corresponding to the letters A through Z of the American Sign Language alphabet. Dynamic gestures, ASL words, phrases, or sequences involving hand motion over time are outside the scope of this work. The pipeline operates entirely on still images drawn from the ASL Alphabet dataset, and classification is performed on an image-by-image basis rather than on continuous video streams. The study does not conduct signer-independent evaluation across external datasets; generalization performance is estimated through stratified cross-validation on the single dataset used for training \cite{adeyanju2021}. These boundaries allow for a focused and reproducible comparison of the four selected classical ML classifiers under controlled and consistent experimental conditions.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Significance of the Study}
+
+This study contributes to the broader effort of making communication technology more inclusive and accessible for the Deaf and hard-of-hearing communities \cite{who2021,bakershenk1980}. By establishing a rigorous benchmark of four classical machine learning classifiers on MediaPipe hand landmark features \cite{zhang2020} for the full 26-class ASL alphabet, this work provides a transparent, reproducible, and computationally lightweight reference point for future research. The findings offer practical guidance for developers building real-time ASL recognition applications on consumer-grade hardware without the need for GPU acceleration or large-scale infrastructure, lowering the barrier to entry for assistive technology development in resource-constrained environments \cite{adeyanju2021,bantupalli2018}.
+
+\include{methods}
+\include{results}
+\include{conclusion}
+\include{references}
+\end{document}
