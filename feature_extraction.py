@@ -4,40 +4,27 @@ import numpy as np
 import pandas as pd
 import mediapipe as mp
 
-# ==============================
 # PARAMETERS
-# ==============================
 DATASET_PATH = "asl_alphabet_train"
 IMG_SIZE = 512
 OUTPUT_CSV = "asl_landmark_features.csv"
 
-# ==============================
+
 # INITIALIZE MEDIAPIPE
-# ==============================
 mp_hands = mp.solutions.hands
 
-hands = mp_hands.Hands(
-    static_image_mode=True,
-    max_num_hands=1,
-    min_detection_confidence=0.5
-)
+hands = mp_hands.Hands( static_image_mode=True, max_num_hands=1, min_detection_confidence=0.5)
 
-# ==============================
+
 # EXTRACT HAND LANDMARK FEATURES
-# ==============================
 def extract_landmarks(image):
-    """
-    Extracts 21 hand landmarks (x, y, z)
-    Total features = 21 * 3 = 63
-    """
+    # Extracts 21 hand landmarks (x, y, z)
+    # Total features = 21 * 3 = 63
 
-    # Convert BGR to RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    # Process image
     results = hands.process(image_rgb)
 
-    # If hand detected
     if results.multi_hand_landmarks:
 
         hand_landmarks = results.multi_hand_landmarks[0]
@@ -52,13 +39,9 @@ def extract_landmarks(image):
             ])
 
         return features
-
-    # If no hand detected
     return None
 
-# ==============================
 # PROCESS DATASET
-# ==============================
 def process_dataset(dataset_path):
 
     data = []
@@ -123,9 +106,8 @@ def process_dataset(dataset_path):
 
     return np.array(data), np.array(labels)
 
-# ==============================
+
 # MAIN
-# ==============================
 print("Starting feature extraction...")
 
 X, y = process_dataset(DATASET_PATH)
@@ -134,9 +116,8 @@ print("\nFeature Extraction Complete")
 print("Feature shape:", X.shape)
 print("Labels shape:", y.shape)
 
-# ==============================
+
 # CREATE DATAFRAME
-# ==============================
 
 # Create column names
 columns = []
@@ -154,9 +135,8 @@ df = pd.DataFrame(X, columns=columns)
 # Add labels
 df["label"] = y
 
-# ==============================
+
 # SAVE FEATURES
-# ==============================
 df.to_csv(OUTPUT_CSV, index=False)
 
 print(f"\nFeatures saved to: {OUTPUT_CSV}")

@@ -2,11 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 
-from sklearn.model_selection import (
-    train_test_split,
-    cross_val_score,
-    StratifiedKFold
-)
+from sklearn.model_selection import (train_test_split, cross_val_score, StratifiedKFold)
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
@@ -15,28 +11,19 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 
-from sklearn.metrics import (
-    accuracy_score,
-    precision_score,
-    recall_score,
-    f1_score,
-    classification_report,
-    confusion_matrix
-)
+from sklearn.metrics import ( accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix)
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ==========================================
+
 # 1. CREATE OUTPUT DIRECTORIES
-# ==========================================
 os.makedirs("plots/confusion_matrices", exist_ok=True)
 os.makedirs("plots/model_comparisons", exist_ok=True)
 os.makedirs("reports", exist_ok=True)
 
-# ==========================================
+
 # 2. LOAD DATASET
-# ==========================================
 CSV_PATH = "asl_landmark_features.csv"
 
 print("Loading dataset...")
@@ -45,24 +32,21 @@ df = pd.read_csv(CSV_PATH)
 print(df.head())
 print("\nDataset Shape:", df.shape)
 
-# ==========================================
+
 # 3. FEATURES AND LABELS
-# ==========================================
 X = df.drop("label", axis=1)
 y = df["label"]
 
-# ==========================================
+
 # 4. ENCODE LABELS
-# ==========================================
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
 print("\nClasses:")
 print(label_encoder.classes_)
 
-# ==========================================
+
 # 5. TRAIN-TEST SPLIT
-# ==========================================
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y_encoded,
@@ -74,9 +58,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("\nTraining Set Shape:", X_train.shape)
 print("Testing Set Shape:", X_test.shape)
 
-# ==========================================
+
 # 6. FEATURE SCALING
-# ==========================================
 scaler = StandardScaler()
 
 X_train = scaler.fit_transform(X_train)
@@ -85,9 +68,8 @@ X_test = scaler.transform(X_test)
 # Scale full dataset for cross-validation
 X_scaled = scaler.fit_transform(X)
 
-# ==========================================
+
 # 7. DEFINE MODELS
-# ==========================================
 models = {
     "SVM": SVC(kernel='rbf'),
     "k-NN": KNeighborsClassifier(n_neighbors=5),
@@ -98,18 +80,16 @@ models = {
     )
 }
 
-# ==========================================
+
 # 8. K-FOLD CROSS VALIDATION SETUP
-# ==========================================
 kfold = StratifiedKFold(
     n_splits=5,
     shuffle=True,
     random_state=42
 )
 
-# ==========================================
+
 # 9. TRAIN AND EVALUATE
-# ==========================================
 results = []
 
 for model_name, model in models.items():
@@ -118,19 +98,13 @@ for model_name, model in models.items():
     print(f"TRAINING: {model_name}")
     print("="*60)
 
-    # ==========================================
     # TRAIN MODEL
-    # ==========================================
     model.fit(X_train, y_train)
 
-    # ==========================================
     # PREDICT
-    # ==========================================
     y_pred = model.predict(X_test)
 
-    # ==========================================
     # TEST METRICS
-    # ==========================================
     accuracy = accuracy_score(y_test, y_pred)
 
     precision = precision_score(
@@ -151,14 +125,10 @@ for model_name, model in models.items():
         average='weighted'
     )
 
-    # ==========================================
     # TRAINING ACCURACY
-    # ==========================================
     train_accuracy = model.score(X_train, y_train)
 
-    # ==========================================
     # CROSS VALIDATION
-    # ==========================================
     cv_scores = cross_val_score(
         model,
         X_scaled,
@@ -171,9 +141,7 @@ for model_name, model in models.items():
     cv_mean = cv_scores.mean()
     cv_std = cv_scores.std()
 
-    # ==========================================
     # STORE RESULTS
-    # ==========================================
     results.append({
         "Model": model_name,
         "Train Accuracy": train_accuracy,
@@ -185,9 +153,7 @@ for model_name, model in models.items():
         "CV Std": cv_std
     })
 
-    # ==========================================
     # PRINT RESULTS
-    # ==========================================
     print(f"\nTrain Accuracy : {train_accuracy:.4f}")
     print(f"Test Accuracy  : {accuracy:.4f}")
 
@@ -201,9 +167,7 @@ for model_name, model in models.items():
     print(f"\nMean CV Accuracy: {cv_mean:.4f}")
     print(f"CV Std Dev      : {cv_std:.4f}")
 
-    # ==========================================
     # CLASSIFICATION REPORT
-    # ==========================================
     report = classification_report(
         y_test,
         y_pred,
@@ -219,9 +183,7 @@ for model_name, model in models.items():
     with open(report_path, "w") as f:
         f.write(report)
 
-    # ==========================================
     # CONFUSION MATRIX
-    # ==========================================
     cm = confusion_matrix(y_test, y_pred)
 
     plt.figure(figsize=(12, 10))
@@ -252,9 +214,8 @@ for model_name, model in models.items():
 
     plt.close()
 
-# ==========================================
+
 # 10. RESULTS TABLE
-# ==========================================
 results_df = pd.DataFrame(results)
 
 print("\n" + "="*60)
@@ -269,9 +230,8 @@ results_df.to_csv(
     index=False
 )
 
-# ==========================================
+
 # 11. METRIC COMPARISON PLOTS
-# ==========================================
 metrics = [
     "Train Accuracy",
     "Test Accuracy",
@@ -306,9 +266,8 @@ for metric in metrics:
 
     plt.close()
 
-# ==========================================
+
 # 12. OVERALL COMPARISON GRAPH
-# ==========================================
 results_df.set_index("Model")[metrics].plot(
     kind='bar',
     figsize=(12, 6)
