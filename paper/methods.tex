@@ -5,9 +5,30 @@ This study follows a two-stage machine learning pipeline consisting of (1) data 
 
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Dataset}
-The dataset used in this study consists of 26 classes corresponding to the ASL alphabet letters A to Z. Each class contains labeled images of static hand gestures captured in RGB format. The dataset is organized into separate directories per class, where each directory represents one ASL letter.
+The dataset used in this study consists of 26 classes corresponding to the ASL alphabet letters A to Z. Each class contains 3000 labeled images of static hand gestures captured in RGB format. The dataset is organized into separate directories per class, where each directory represents one ASL letter.
 
-Each image is treated as an independent sample and is processed individually through the feature extraction pipeline. The dataset is traversed systematically by iterating through all class folders and reading each image file for preprocessing and landmark extraction.
+\begin{figure}[H]
+\centering
+
+\begin{tabular}{ccccc}
+\includegraphics[width=0.18\textwidth]{sample_a.jpg} &
+\includegraphics[width=0.18\textwidth]{sample_b.jpg} &
+\includegraphics[width=0.18\textwidth]{sample_c.jpg} &
+\includegraphics[width=0.18\textwidth]{sample_d.jpg} &
+\includegraphics[width=0.18\textwidth]{sample_e.jpg} \\
+
+(a) A &
+(b) B &
+(c) C &
+(d) D &
+(e) E \\
+\end{tabular}
+
+\caption{Sample ASL Hand Gesture Images from the Dataset}
+\label{fig:asl_samples}
+
+\end{figure}
+Figure~\ref{fig:asl_samples} shows sample images from the ASL dataset used in the study. Each image is treated as an independent sample and is processed individually through the feature extraction pipeline. The dataset is traversed systematically by iterating through all class folders for preprocessing and landmark extraction.
 
 \subsection{Image Preprocessing}
 Before feature extraction, each image undergoes a standardized preprocessing pipeline to ensure consistency and improve detection reliability.
@@ -35,7 +56,7 @@ Since OpenCV loads images in BGR format, each image is converted to RGB using \t
 
 Hand landmark detection is performed using MediaPipe Hands, a real-time hand tracking framework developed by Google. The system operates in static image mode and is configured to detect a single hand per image.
 
-MediaPipe Hands uses a two-stage deep learning pipeline:
+MediaPipe Hands uses a two-stage pipeline:
 
 \begin{itemize}
 \item A palm detection model that identifies the region of interest.
