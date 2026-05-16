@@ -1,12 +1,55 @@
 \section{Appendix}
 
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{10pt}
+\caption{SVM Performance on Test Set}
+\begin{tabular}{|p{2cm}|cccc|}
+\hline
+\textbf{Label}& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\hline
+A & 1.00 & 1.00 & 1.00 & 465 \\
+B & 0.99 & 1.00 & 1.00 & 469 \\
+C & 0.99 & 1.00 & 1.00 & 445 \\
+D & 0.99 & 0.99 & 0.99 & 550 \\
+E & 1.00 & 0.99 & 0.99 & 461 \\
+F & 1.00 & 0.99 & 1.00 & 586 \\
+G & 1.00 & 0.99 & 1.00 & 521 \\
+H & 0.98 & 0.99 & 0.99 & 506 \\
+I & 0.99 & 1.00 & 0.99 & 494 \\
+J & 1.00 & 0.99 & 0.99 & 530 \\
+K & 0.99 & 0.98 & 0.99 & 551 \\
+L & 1.00 & 1.00 & 1.00 & 537 \\
+M & 0.94 & 0.96 & 0.95 & 337 \\
+N & 0.96 & 0.93 & 0.95 & 258 \\
+O & 0.99 & 1.00 & 0.99 & 486 \\
+P & 1.00 & 0.98 & 0.99 & 424 \\
+Q & 0.98 & 1.00 & 0.99 & 438 \\
+R & 0.98 & 0.96 & 0.97 & 524 \\
+S & 0.99 & 1.00 & 0.99 & 512 \\
+T & 1.00 & 0.99 & 0.99 & 476 \\
+U & 0.97 & 0.98 & 0.98 & 513 \\
+V & 0.98 & 0.98 & 0.98 & 520 \\
+W & 0.98 & 0.99 & 0.99 & 512 \\
+X & 0.98 & 1.00 & 0.99 & 444 \\
+Y & 1.00 & 1.00 & 1.00 & 532 \\
+Z & 1.00 & 0.99 & 1.00 & 481 \\
+\hline
+\textbf{Accuracy} & \multicolumn{4}{|c|}{0.99} \\
+\textbf{F1-Score} & \multicolumn{4}{|c|}{0.99}  \\
+\hline
+\end{tabular}
+\end{table}
+
 
 \begin{table}[H]
 \centering
 \small
 \renewcommand{\arraystretch}{1.2}
 \setlength{\tabcolsep}{10pt}
-\caption{SVC Performance on Test Set}
+\caption{k-NN Performance on Test Set}
 \begin{tabular}{|p{2cm}|cccc|}
 \hline
 \textbf{Label}& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
@@ -43,3 +86,93 @@ Z & 1.00 & 0.99 & 1.00 & 481 \\
 \hline
 \end{tabular}
 \end{table}
+
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{10pt}
+\caption{Naive Bayes Performance on Test Set}
+\begin{tabular}{|p{2cm}|cccc|}
+\hline
+\textbf{Label}& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\hline
+A & 0.41 & 0.67 & 0.51 & 465 \\
+B & 0.53 & 0.70 & 0.61 & 469 \\
+C & 0.78 & 0.45 & 0.57 & 445 \\
+D & 0.83 & 0.63 & 0.72 & 550 \\
+E & 0.21 & 0.50 & 0.30 & 461 \\
+F & 0.93 & 0.72 & 0.81 & 586 \\
+G & 0.79 & 0.69 & 0.74 & 521 \\
+H & 0.71 & 0.57 & 0.63 & 506 \\
+I & 0.50 & 0.47 & 0.48 & 494 \\
+J & 0.73 & 0.60 & 0.66 & 530 \\
+K & 0.33 & 0.51 & 0.40 & 551 \\
+L & 0.62 & 0.65 & 0.63 & 537 \\
+M & 0.42 & 0.28 & 0.33 & 337 \\
+N & 0.41 & 0.70 & 0.52 & 258 \\
+O & 0.58 & 0.73 & 0.64 & 486 \\
+P & 0.68 & 0.63 & 0.65 & 424 \\
+Q & 0.75 & 0.63 & 0.68 & 438 \\
+R & 0.36 & 0.34 & 0.35 & 524 \\
+S & 0.26 & 0.30 & 0.28 & 512 \\
+T & 0.71 & 0.38 & 0.49 & 476 \\
+U & 0.18 & 0.04 & 0.06 & 513 \\
+V & 0.35 & 0.62 & 0.45 & 520 \\
+W & 0.60 & 0.26 & 0.37 & 512 \\
+X & 0.44 & 0.24 & 0.31 & 444 \\
+Y & 0.47 & 0.46 & 0.47 & 532 \\
+Z & 0.60 & 0.49 & 0.54 & 481 \\
+\hline
+\textbf{Accuracy} & \multicolumn{4}{|c|}{0.51} \\
+\textbf{F1-Score} & \multicolumn{4}{|c|}{0.51}  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{10pt}
+\caption{Random Forest Performance on Test Set}
+\begin{tabular}{|p{2cm}|cccc|}
+\hline
+\textbf{Label}& \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+\hline
+A & 0.99 & 0.99 & 0.99 & 465 \\
+B & 0.99 & 1.00 & 0.99 & 469 \\
+C & 0.99 & 1.00 & 0.99 & 445 \\
+D & 0.99 & 0.99 & 0.99 & 550 \\
+E & 0.98 & 0.99 & 0.99 & 461 \\
+F & 0.99 & 1.00 & 0.99 & 586 \\
+G & 0.99 & 0.99 & 0.99 & 521 \\
+H & 0.99 & 0.98 & 0.98 & 506 \\
+I & 1.00 & 1.00 & 1.00 & 494 \\
+J & 0.99 & 0.98 & 0.99 & 530 \\
+K & 0.99 & 0.99 & 0.99 & 551 \\
+L & 1.00 & 0.99 & 0.99 & 537 \\
+M & 0.95 & 0.96 & 0.96 & 337 \\
+N & 0.96 & 0.93 & 0.94 & 258 \\
+O & 0.98 & 0.99 & 0.98 & 486 \\
+P & 0.99 & 0.99 & 0.99 & 424 \\
+Q & 0.99 & 1.00 & 0.99 & 438 \\
+R & 0.99 & 0.96 & 0.97 & 524 \\
+S & 0.99 & 0.98 & 0.98 & 512 \\
+T & 0.99 & 0.99 & 0.99 & 476 \\
+U & 0.95 & 0.96 & 0.96 & 513 \\
+V & 0.97 & 0.98 & 0.98 & 520 \\
+W & 0.99 & 1.00 & 0.99 & 512 \\
+X & 0.98 & 1.00 & 0.99 & 444 \\
+Y & 1.00 & 1.00 & 1.00 & 532 \\
+Z & 1.00 & 0.99 & 0.99 & 481 \\
+\hline
+\textbf{Accuracy} & \multicolumn{4}{|c|}{0.99} \\
+\textbf{F1-Score} & \multicolumn{4}{|c|}{0.99}  \\
+\hline
+\end{tabular}
+\end{table}
+
+
