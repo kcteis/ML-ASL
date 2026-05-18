@@ -306,3 +306,22 @@ print("- reports/model_results_with_cv.csv")
 print("- reports/*_classification_report.txt")
 print("- plots/confusion_matrices/")
 print("- plots/model_comparisons/")
+
+#Save Model
+import joblib
+from sklearn.preprocessing import LabelEncoder
+
+best_model = max(results, key=lambda x: x["Test Accuracy"])
+best_model_name = best_model["Model"]
+print(f"\nBest Model: {best_model_name} with Test Accuracy: {best_model['Test Accuracy']:.4f}") 
+best_model_instance = models[best_model_name]
+joblib.dump(best_model_instance, f"reports/{best_model_name}_model.joblib")
+print(f"Best model saved as: reports/{best_model_name}_model.joblib")
+
+encoder = LabelEncoder()
+y_encoded = encoder.fit_transform(y)
+joblib.dump(encoder, "reports/label_encoder.joblib")
+print("Label encoder saved as: reports/label_encoder.joblib")
+
+joblib.dump(scaler, "reports/feature_scaler.joblib")
+print("Feature scaler saved as: reports/feature_scaler.joblib")
