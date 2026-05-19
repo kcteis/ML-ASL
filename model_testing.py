@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import joblib 
 
 from sklearn.model_selection import (train_test_split, cross_val_score, StratifiedKFold)
 
@@ -178,7 +179,20 @@ for model_name, model in models.items():
     print(report)
 
     # Save report
-    report_path = f"reports/{model_name}_classification_report.txt"
+    report_path = f"reports/{model_name}_classification_report.txt"\
+    
+    if model_name == "SVM":
+
+        # Save trained SVM model
+        joblib.dump(model, "svm_asl_model.pkl")
+
+        # Save scaler
+        joblib.dump(scaler, "scaler.pkl")
+
+        # Save label encoder
+        joblib.dump(label_encoder, "label_encoder.pkl")
+
+    print("\nSVM model saved successfully!")
 
     with open(report_path, "w") as f:
         f.write(report)
@@ -306,3 +320,4 @@ print("- reports/model_results_with_cv.csv")
 print("- reports/*_classification_report.txt")
 print("- plots/confusion_matrices/")
 print("- plots/model_comparisons/")
+

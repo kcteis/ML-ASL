@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.4)  16 MAY 2026 13:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.4)  19 MAY 2026 00:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -355,18 +355,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 48.
  (C:\Users\esfpa\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (8.29999pt too wide) in paragraph at lines 53--54
-\T1/cmr/bx/n/9 Keywords:\T1/cmr/m/n/9 American Sign Lan-guage \TS1/cmr/m/n/9 · \T1/cmr/m/n/9 Ma-chine Learn-ing \TS1/cmr/m/n/9 · \T1/cmr/m/n/9 Ges-ture Recog-
+Overfull \hbox (6.72612pt too wide) in paragraph at lines 65--66
+\T1/cmr/m/n/12 broad hard-ware paradigms: sensor-based and vision-based ap-proaches.
  []
 
 [1
 
 {C:/Users/esfpa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-Overfull \hbox (6.72612pt too wide) in paragraph at lines 65--66
-\T1/cmr/m/n/12 broad hard-ware paradigms: sensor-based and vision-based ap-proaches.
- []
-
-
 Overfull \hbox (2.94084pt too wide) in paragraph at lines 67--68
 \T1/cmr/m/n/12 this paradigm, clas-si-cal ma-chine learn-ing al-go-rithms have been widely
  []
@@ -376,71 +371,66 @@ Overfull \hbox (24.183pt too wide) in paragraph at lines 88--89
 []\T1/cmr/m/n/12 To con-struct a struc-tured fea-ture dataset by ex-tract-ing 63-dimensional
  []
 
-[4] [5] [6]
+[4] [5]
 \openout2 = `methods.aux'.
 
  (methods.tex
-<images/sample_a.jpg, id=33, 200.75pt x 200.75pt>
+<images/sample_a.jpg, id=28, 200.75pt x 200.75pt>
 File: images/sample_a.jpg Graphic file (type jpg)
 <use images/sample_a.jpg>
 Package pdftex.def Info: images/sample_a.jpg  used on input line 14.
 (pdftex.def)             Requested size: 62.47969pt x 62.47997pt.
-<images/sample_b.jpg, id=34, 200.75pt x 200.75pt>
+<images/sample_b.jpg, id=29, 200.75pt x 200.75pt>
 File: images/sample_b.jpg Graphic file (type jpg)
 <use images/sample_b.jpg>
 Package pdftex.def Info: images/sample_b.jpg  used on input line 15.
 (pdftex.def)             Requested size: 62.47969pt x 62.47997pt.
-<images/sample_c.jpg, id=35, 200.75pt x 200.75pt>
+<images/sample_c.jpg, id=30, 200.75pt x 200.75pt>
 File: images/sample_c.jpg Graphic file (type jpg)
 <use images/sample_c.jpg>
 Package pdftex.def Info: images/sample_c.jpg  used on input line 16.
 (pdftex.def)             Requested size: 62.47969pt x 62.47997pt.
-<images/sample_d.jpg, id=36, 200.75pt x 200.75pt>
+<images/sample_d.jpg, id=31, 200.75pt x 200.75pt>
 File: images/sample_d.jpg Graphic file (type jpg)
 <use images/sample_d.jpg>
 Package pdftex.def Info: images/sample_d.jpg  used on input line 17.
 (pdftex.def)             Requested size: 62.47969pt x 62.47997pt.
-<images/sample_e.jpg, id=37, 200.75pt x 200.75pt>
+<images/sample_e.jpg, id=32, 200.75pt x 200.75pt>
 File: images/sample_e.jpg Graphic file (type jpg)
 <use images/sample_e.jpg>
 Package pdftex.def Info: images/sample_e.jpg  used on input line 18.
 (pdftex.def)             Requested size: 62.47969pt x 62.47997pt.
- [7
+ [6
 
- <./images/sample_a.jpg> <./images/sample_b.jpg> <./images/sample_c.jpg> <./images/sample_d.jpg> <./images/sample_e.jpg>] [8]
+ <./images/sample_a.jpg> <./images/sample_b.jpg> <./images/sample_c.jpg> <./images/sample_d.jpg> <./images/sample_e.jpg>] [7]
 Overfull \hbox (31.16223pt too wide) in alignment at lines 105--105
 [][][] 
  []
 
-[9] [10]
+[8] [9]
 Overfull \hbox (11.24539pt too wide) in alignment at lines 196--196
 [][][] 
  []
 
-[11]) [12]
+[10]) [11]
 \openout2 = `results.aux'.
 
- (results.tex
-Overfull \hbox (1.42331pt too wide) in paragraph at lines 28--29
-[]\T1/cmr/m/n/12 Among the eval-u-ated mod-els, the Sup-port Vec-tor Ma-chine (SVM)
- []
-
-[13
+ (results.tex [12
 
 
 
 ]
-<images/SVM_confusion_matrix.png, id=70, 796.6563pt x 714.2685pt>
+<images/SVM_confusion_matrix.png, id=65, 796.6563pt x 714.2685pt>
 File: images/SVM_confusion_matrix.png Graphic file (type png)
 <use images/SVM_confusion_matrix.png>
-Package pdftex.def Info: images/SVM_confusion_matrix.png  used on input line 40.
+Package pdftex.def Info: images/SVM_confusion_matrix.png  used on input line 37.
 (pdftex.def)             Requested size: 260.34265pt x 233.42058pt.
- [14 <./images/SVM_confusion_matrix.png>]
-Overfull \hbox (3.91992pt too wide) in paragraph at lines 49--50
-\T1/cmr/m/n/12 fea-ture ex-trac-tion pro-vides mean-ing-ful spa-tial rep-re-sen-ta-tions of hand
+ [13 <./images/SVM_confusion_matrix.png>]
+Overfull \hbox (0.5832pt too wide) in paragraph at lines 49--50
+\T1/cmr/m/n/12 formed highly dis-crim-i-na-tive pat-terns within fea-ture space. The SVM
  []
 
-) [15]
+) [14]
 \openout2 = `conclusion.aux'.
 
  (conclusion.tex
@@ -448,30 +438,30 @@ Overfull \hbox (1.24834pt too wide) in paragraph at lines 8--9
 []\T1/cmr/m/n/12 Overall, the find-ings of the study demon-strate that ma-chine learn-
  []
 
-[16
+[15
 
 
 
-]) [17]
+]) [16]
 \openout2 = `appendices.aux'.
 
  (appendices.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [18
+ [17
 
 
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19]
+ [18]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20]) [21]
+ [19]) [20]
 \openout2 = `references.aux'.
 
- (references.tex) [22
+ (references.tex) [21
 
 
 
@@ -482,17 +472,17 @@ L3 programming layer <2025-12-24>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4272 strings out of 467871
- 62880 string characters out of 5418377
+ 4267 strings out of 467871
+ 62778 string characters out of 5418377
  496989 words of memory out of 5000000
- 33056 multiletter control sequences out of 15000+600000
- 645914 words of font info for 86 fonts, out of 8000000 for 9000
+ 33052 multiletter control sequences out of 15000+600000
+ 645577 words of font info for 85 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,14n,65p,1023b,364s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0800.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on intro.pdf (22 pages, 486982 bytes).
+ <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0800.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0900.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\esfpa\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/esfpa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on intro.pdf (21 pages, 484575 bytes).
 PDF statistics:
- 561 PDF objects out of 1000 (max. 8388607)
+ 549 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
