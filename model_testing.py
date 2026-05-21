@@ -4,7 +4,6 @@ import numpy as np
 import joblib 
 
 from sklearn.model_selection import (train_test_split, cross_val_score, StratifiedKFold)
-
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 from sklearn.svm import SVC
@@ -181,19 +180,6 @@ for model_name, model in models.items():
     # Save report
     report_path = f"reports/{model_name}_classification_report.txt"\
     
-    if model_name == "SVM":
-
-        # Save trained SVM model
-        joblib.dump(model, "svm_asl_model.pkl")
-
-        # Save scaler
-        joblib.dump(scaler, "scaler.pkl")
-
-        # Save label encoder
-        joblib.dump(label_encoder, "label_encoder.pkl")
-
-    print("\nSVM model saved successfully!")
-
     with open(report_path, "w") as f:
         f.write(report)
 
@@ -213,19 +199,14 @@ for model_name, model in models.items():
     plt.title(f"{model_name} Confusion Matrix")
     plt.xlabel("Predicted Label")
     plt.ylabel("True Label")
-
     plt.xticks(rotation=90)
     plt.yticks(rotation=0)
-
     plt.tight_layout()
 
     # Save confusion matrix
     cm_path = f"plots/confusion_matrices/{model_name}_confusion_matrix.png"
-
     plt.savefig(cm_path, dpi=300, bbox_inches='tight')
-
     plt.show()
-
     plt.close()
 
 
@@ -239,13 +220,10 @@ print("="*60)
 print(results_df)
 
 # Save results
-results_df.to_csv(
-    "reports/model_results_with_cv.csv",
-    index=False
-)
+results_df.to_csv("reports/model_results_with_cv.csv", index=False)
 
 
-# 11. METRIC COMPARISON PLOTS
+# METRIC COMPARISON PLOTS
 metrics = [
     "Train Accuracy",
     "Test Accuracy",
@@ -273,50 +251,42 @@ for metric in metrics:
 
     # Save plot
     plot_path = f"plots/model_comparisons/{metric}_comparison.png"
-
     plt.savefig(plot_path, dpi=300, bbox_inches='tight')
-
     plt.show()
-
     plt.close()
 
 
-# 12. OVERALL COMPARISON GRAPH
-results_df.set_index("Model")[metrics].plot(
-    kind='bar',
-    figsize=(12, 6)
-)
+# OVERALL COMPARISON GRAPH
+results_df.set_index("Model")[metrics].plot(kind='bar', figsize=(12, 6))
 
 plt.title("Overall Model Performance Comparison")
 plt.ylabel("Score")
-
 plt.ylim(0, 1)
-
 plt.xticks(rotation=0)
-
 plt.tight_layout()
 
 # Save overall graph
-overall_plot_path = (
-    "plots/model_comparisons/overall_model_comparison.png"
-)
-
-plt.savefig(
-    overall_plot_path,
-    dpi=300,
-    bbox_inches='tight'
-)
+overall_plot_path = ("plots/model_comparisons/overall_model_comparison.png")
+plt.savefig(overall_plot_path, dpi=300, bbox_inches='tight')
 
 plt.show()
-
 plt.close()
 
-print("\n===================================")
 print("ALL RESULTS SAVED SUCCESSFULLY")
-print("===================================")
 
-print("\nSaved Files:")
-print("- reports/model_results_with_cv.csv")
-print("- reports/*_classification_report.txt")
-print("- plots/confusion_matrices/")
-print("- plots/model_comparisons/")
+
+#Save Model
+best_model = max(results, key=lambda x: x["Test Accuracy"])
+best_model_name = best_model["Model"]
+print(f"\nBest Model: {best_model_name} with Test Accuracy: {best_model['Test Accuracy']:.4f}") 
+best_model_instance = models[best_model_name]
+joblib.dump(best_model_instance, f"reports/{best_model_name}_model.joblib")
+print(f"Best model saved as: reports/{best_model_name}_model.joblib")
+
+encoder = LabelEncoder()
+y_encoded = encoder.fit_transform(y)
+joblib.dump(encoder, "reports/label_encoder.joblib")
+print("Label encoder saved as: reports/label_encoder.joblib")
+
+joblib.dump(scaler, "reports/feature_scaler.joblib")
+print("Feature scaler saved as: reports/feature_scaler.joblib")

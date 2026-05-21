@@ -1,13 +1,12 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-import os
 import joblib
-from sklearn.preprocessing import LabelEncoder
 
 model = joblib.load("reports/SVM_model.joblib")
 encoder = joblib.load("reports/label_encoder.joblib")
 scaler = joblib.load("reports/feature_scaler.joblib")   
+
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
