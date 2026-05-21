@@ -18,13 +18,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# 1. CREATE OUTPUT DIRECTORIES
+# CREATE OUTPUT DIRECTORIES
 os.makedirs("plots/confusion_matrices", exist_ok=True)
 os.makedirs("plots/model_comparisons", exist_ok=True)
 os.makedirs("reports", exist_ok=True)
 
 
-# 2. LOAD DATASET
+# LOAD DATASET
 CSV_PATH = "asl_landmark_features.csv"
 
 print("Loading dataset...")
@@ -34,12 +34,12 @@ print(df.head())
 print("\nDataset Shape:", df.shape)
 
 
-# 3. FEATURES AND LABELS
+# FEATURES AND LABELS
 X = df.drop("label", axis=1)
 y = df["label"]
 
 
-# 4. ENCODE LABELS
+# ENCODE LABELS
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
@@ -47,7 +47,7 @@ print("\nClasses:")
 print(label_encoder.classes_)
 
 
-# 5. TRAIN-TEST SPLIT
+# TRAIN-TEST SPLIT
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y_encoded,
@@ -60,7 +60,7 @@ print("\nTraining Set Shape:", X_train.shape)
 print("Testing Set Shape:", X_test.shape)
 
 
-# 6. FEATURE SCALING
+# FEATURE SCALING
 scaler = StandardScaler()
 
 X_train = scaler.fit_transform(X_train)
@@ -70,7 +70,7 @@ X_test = scaler.transform(X_test)
 X_scaled = scaler.fit_transform(X)
 
 
-# 7. DEFINE MODELS
+# DEFINE MODELS
 models = {
     "SVM": SVC(kernel='rbf'),
     "k-NN": KNeighborsClassifier(n_neighbors=5),
@@ -82,7 +82,7 @@ models = {
 }
 
 
-# 8. K-FOLD CROSS VALIDATION SETUP
+# K-FOLD CROSS VALIDATION SETUP
 kfold = StratifiedKFold(
     n_splits=5,
     shuffle=True,
@@ -90,7 +90,7 @@ kfold = StratifiedKFold(
 )
 
 
-# 9. TRAIN AND EVALUATE
+# TRAIN AND EVALUATE
 results = []
 
 for model_name, model in models.items():
