@@ -47,11 +47,11 @@ University of the Philippines Visayas, Miagao, Iloilo, Philippines
 
 \maketitle
 
-% \begin{abstract}
-% This study investigates the performance of classical machine learning algorithms for American Sign Language (ASL) alphabet recognition using image-based data. Support Vector Machine (SVM), k-Nearest Neighbors (k-NN), Naïve Bayes, and Random Forest classifiers are evaluated under identical experimental conditions to determine their effectiveness in recognizing static ASL hand gestures. The study aims to identify lightweight and computationally efficient alternatives to deep learning approaches for resource-constrained environments.
+\begin{abstract}
+This study presents an experimental analysis of classical machine learning models for American Sign Language (ASL) alphabet recognition. A dataset consisting of 26 ASL alphabet classes was processed through image preprocessing, hand landmark detection, and feature extraction to generate 63-dimensional landmark coordinate vectors. Machine learning models such as Support Vector Machine (SVM), k-Nearest Neighbors (k-NN), Gaussian Na\"{i}ve Bayes, and Random Forest, were trained and evaluated using stratified train-test splitting and cross-validation. Results showed that the SVM classifier achieved the highest performance with 98.8\% accuracy and an F1-score of 0.989, outperforming the other evaluated models. Random Forest and k-NN also demonstrated competitive performance, while Gaussian Na\"{i}ve Bayes achieved significantly lower accuracy due to limitations in handling correlated landmark features. The findings demonstrate that MediaPipe landmark-based feature extraction combined with classical machine learning techniques provides an efficient and accurate approach for static ASL alphabet recognition.
 
-% \keywords{American Sign Language \and Machine Learning \and Gesture Recognition \and Computer Vision}
-% \end{abstract}
+\keywords{American Sign Language \and Machine Learning \and Gesture Recognition \and MediaPipe Hands}
+\end{abstract}
 
 \section{Introduction}
 
@@ -91,7 +91,7 @@ This study addresses the identified gap through the following specific objective
 
   \item To assess each classifier using a consistent evaluation protocol comprising a stratified 80/20 holdout split and 5-fold stratified cross-validation, reporting accuracy, weighted precision, recall, F1-score, and cross-validation mean accuracy.
 
-  \item To identify the classifier that achieves the optimal balance between recognition accuracy and generalization stability for deployment in a lightweight, hardware-free ASL alphabet recognition system.
+  \item To identify the classifier that achieves the optimal balance between recognition accuracy and generalization stability.
 \end{enumerate}
 
 % ══════════════════════════════════════════════════════════════════════════════
